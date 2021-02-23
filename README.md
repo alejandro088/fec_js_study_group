@@ -7,7 +7,7 @@
 Para probar la version en linea del TodoList, ingrese a https://alejandro088.github.io/fec_js_study_group/todolist/
 
 Si desea ejecutar el TodoList en una aplicación existente, asegurese de tener un div para contener la lista.
-Ejemplo: 
+Ejemplo:
 
 ```html
 <div id="todo"></div>
@@ -19,14 +19,16 @@ Agregue el archivo js en su html principal.
 Inicialize la TodoList de la siguiente manera:
 
 ```js
-const todo = new TodoList('todo');
+const todo = new TodoList({
+  el: "todo", // id del div contenedor
+});
 ```
 
 #### Metodos
 
 ```js
 // Añade una nueva tarea con titulo "title"
-todo.addTask('title') 
+todo.addTask("title");
 
 // Lista todas las tareas.
 todo.filterFull();
@@ -39,5 +41,4 @@ todo.filterCompleted();
 
 // Elimina todas las tareas
 todo.removeAllTask();
-
 ```

@@ -43,12 +43,12 @@ class Task {
 }
 
 class TodoList {
-  constructor(container) {
+  constructor(config) {
     this.tasks = [new Task("Task 1"), new Task("Task 2"), new Task("Task 3")];
 
     this.filter = "all";
 
-    this.container = document.getElementById(container);
+    this.container = document.getElementById(config.el);
     this.draw();
   }
 

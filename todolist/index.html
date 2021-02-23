@@ -33,7 +33,9 @@
     <script src="./app.js"></script>
     <script>
         
-        const todo = new TodoList('todo');
+        const todo = new TodoList({
+            el: 'todo'
+        });
 
         document.getElementById("addTask").addEventListener("click", () => {
             title = document.getElementById("title");
