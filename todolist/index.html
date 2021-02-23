@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="./styles.css">
+
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="toolbar">
+            <input type="text" name="" id="title">
+            <button id="addTask">Nueva tarea</button>
+        </div>
+
+        <div class="toolbar">
+            <button id="full">Todas</button>
+            <button id="actives">Activas</button>
+            <button id="completed">Completadas</button>
+            <button id="clear">Borrar todo</button>
+        </div>
+
+        <div id="todo"></div>
+
+    </div>
+
+    <script src="./app.js"></script>
+    <script>
+        
+        const todo = new TodoList('todo');
+
+        document.getElementById("addTask").addEventListener("click", () => {
+            title = document.getElementById("title");
+            if (title.value.trim()) {
+                todo.addTask(title.value.trim());
+            } else {
+                alert('Ingrese un titulo!!')
+            }
+        });
+
+        document.getElementById("full").addEventListener("click", () => {
+            todo.filterFull();
+        });
+
+        document.getElementById("actives").addEventListener("click", () => {
+            todo.filterActives();
+        });
+
+        document.getElementById("completed").addEventListener("click", () => {
+            todo.filterCompleted();
+        });
+
+        document.getElementById("clear").addEventListener("click", () => {
+            todo.removeAllTask();
+        });
+    </script>
+
+</body>
+
+</html>

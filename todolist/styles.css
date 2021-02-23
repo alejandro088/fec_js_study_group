@@ -1,0 +1,22 @@
+ul {
+    list-style-type: none;
+}
+
+label {
+    font-size: 2rem;
+}
+
+#app {
+    width: 400px;
+}
+
+.completed {
+    background-color: rgb(63, 107, 228);
+    color: whitesmoke;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
