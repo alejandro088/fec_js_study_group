@@ -1,166 +1,143 @@
 class Task {
-    constructor(name) {
-        this.name = name;
-        this.status = 'open';
+  constructor(name) {
+    this.name = name;
+    this.status = "open";
+  }
+
+  render(index) {
+    let p;
+    let label;
+    let li;
+
+    li = document.createElement("li");
+
+    p = document.createElement("input");
+    p.setAttribute("type", "checkbox");
+    p.setAttribute("name", "task" + index);
+    p.setAttribute("id", "task" + index);
+
+    label = document.createElement("label");
+    label.setAttribute("for", "task" + index);
+    label.innerText = this.name;
+
+    if (this.status == "completed") {
+      label.classList.add("completed");
+      p.checked = true;
     }
 
-    render(index) {
+    li.appendChild(p);
+    li.appendChild(label);
 
-        let p;
-        let label;
-        let li;
+    return li;
+  }
 
-        li = document.createElement("li");
+  markAsCompleted() {
+    //const index = this.list.indexOf(task);
 
-        p = document.createElement("input");
-        p.setAttribute("type", "checkbox");
-        p.setAttribute("name", "task" + index);
-        p.setAttribute("id", "task" + index);
+    this.status = this.status == "open" ? "completed" : "open";
 
-        label = document.createElement("label");
-        label.setAttribute("for", "task" + index);
-        label.innerText = this.name;
-
-        if (this.status == 'completed') {
-            label.classList.add('completed');
-            p.checked = true;
-        }
-
-        li.appendChild(p);
-        li.appendChild(label);
-
-        return li;
-    }
-
-    markAsCompleted() {
-        //const index = this.list.indexOf(task);
-
-        this.status = (this.status == 'open') ? 'completed' : 'open';
-
-        /*if (index !== -1) {
+    /*if (index !== -1) {
             this.list[index] = task;
         }*/
-    }
+  }
 }
 
 class TodoList {
-    constructor(container) {
-        this.tasks = [new Task(
-                'Task 1'
-            ),
-            new Task(
-                'Task 2'
-            ),
-            new Task(
-                'Task 3'
-            )
-        ];
+  constructor(container) {
+    this.tasks = [new Task("Task 1"), new Task("Task 2"), new Task("Task 3")];
 
-        this.container = document.getElementById(container);
-        this.draw();
+    this.filter = "all";
+
+    this.container = document.getElementById(container);
+    this.draw();
+  }
+
+  get list() {
+    return this.tasks;
+  }
+
+  addTask(name) {
+    this.tasks.push(new Task(name));
+
+    this.container.innerHTML = "";
+    this.draw();
+  }
+
+  removeTask(task) {
+    const index = this.list.indexOf(task);
+    if (index > -1) {
+      this.list.splice(index, 1);
     }
+  }
 
-    get list() {
-        return this.tasks;
-    }
+  draw() {
+    let ul = document.createElement("ul");
 
-    addTask(name) {
-        this.tasks.push(new Task(
-            name
-        ));
+    this.list.forEach((task, index) => {
+      this.renderItemList(task, index, ul);
+    });
 
-        this.container.innerHTML = '';
-        this.draw();
-    }
+    this.container.appendChild(ul);
+  }
 
-    removeTask(task) {
-        const index = this.list.indexOf(task);
-        if (index > -1) {
-            this.list.splice(index, 1);
-        }
-    }
+  drawActives() {
+    let ul = document.createElement("ul");
 
-    draw() {
+    const listActives = this.list.filter((task) => task.status == "open");
 
-        let ul = document.createElement("ul");
+    listActives.forEach((task, index) => {
+      this.renderItemList(task, index, ul);
+    });
 
-        this.list.forEach((task, index) => {
-            //p = document.createElement("p");
+    this.container.appendChild(ul);
+  }
 
-            let li = task.render(index);
-            ul.appendChild(li);
-            li.addEventListener("click", (event) => {
-                //this.removeTask(task);
-                task.markAsCompleted();
-                this.redraw();
-            });
+  drawCompleted() {
+    let ul = document.createElement("ul");
 
-        });
+    const listCompleted = this.list.filter(
+      (task) => task.status == "completed"
+    );
 
-        this.container.appendChild(ul);
-    }
+    listCompleted.forEach((task, index) => {
+      this.renderItemList(task, index, ul);
+    });
 
-    drawActives() {
-        let ul = document.createElement("ul");
+    this.container.appendChild(ul);
+  }
 
-        this.list.forEach((task, index) => {
-            if (task.status == 'open') {
+  renderItemList(task, index, ul) {
+    let li = task.render(index);
 
+    ul.appendChild(li);
+    li.addEventListener("click", (event) => {
+      //this.removeTask(task);
+      task.markAsCompleted();
+      this.redraw();
+    });
+  }
 
-                let li = task.render(index);
+  redraw() {
+    this.container.innerHTML = "";
+    this.draw();
+  }
 
-                ul.appendChild(li);
-                li.addEventListener("click", (event) => {
-                    //this.removeTask(task);
-                    task.markAsCompleted();
-                    this.redraw();
-                });
-            }
-        });
+  filterFull() {
+    this.redraw();
+  }
 
-        this.container.appendChild(ul);
-    }
+  filterActives() {
+    this.container.innerHTML = "";
+    this.drawActives();
+  }
 
-    drawCompleted() {
-        let ul = document.createElement("ul");
+  filterCompleted() {
+    this.container.innerHTML = "";
+    this.drawCompleted();
+  }
 
-        this.list.forEach((task, index) => {
-            if (task.status == 'completed') {
-                let li = task.render(index);
-
-                ul.appendChild(li);
-                li.addEventListener("click", (event) => {
-                    //this.removeTask(task);
-                    task.markAsCompleted();
-                    this.redraw();
-                });
-            }
-        });
-
-        this.container.appendChild(ul);
-    }
-
-    redraw() {
-        this.container.innerHTML = '';
-        this.draw();
-    }
-
-    filterFull() {
-        this.redraw();
-    }
-
-    filterActives() {
-        this.container.innerHTML = '';
-        this.drawActives();
-    }
-
-    filterCompleted() {
-        this.container.innerHTML = '';
-        this.drawCompleted();
-    }
-
-    removeAllTask() {
-        this.tasks = [];
-        this.redraw();
-    }
+  removeAllTask() {
+    this.tasks = [];
+    this.redraw();
+  }
 }
