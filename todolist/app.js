@@ -80,6 +80,9 @@ class TodoList {
     });
 
     this.container.appendChild(ul);
+
+    this.renderTotal(this.list);
+
   }
 
   drawActives() {
@@ -92,6 +95,8 @@ class TodoList {
     });
 
     this.container.appendChild(ul);
+
+    this.renderTotal(listActives);
   }
 
   drawCompleted() {
@@ -106,6 +111,14 @@ class TodoList {
     });
 
     this.container.appendChild(ul);
+
+    this.renderTotal(listCompleted);    
+  }
+
+  renderTotal(list){
+    let containertotal = document.createElement("div");
+    containertotal.innerHTML = `<spam>Items: ${list.length}</span>`
+    this.container.appendChild(containertotal);
   }
 
   renderItemList(task, index, ul) {

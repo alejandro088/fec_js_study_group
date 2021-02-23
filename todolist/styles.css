@@ -17,6 +17,10 @@ li {
     width: 400px;
 }
 
+#todo > div {
+    margin-left: 40px;
+}
+
 .completed {
     background-color: rgb(63, 107, 228);
     color: whitesmoke;
