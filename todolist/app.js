@@ -5,28 +5,30 @@ class Task {
   }
 
   render(index) {
-    let p;
-    let label;
-    let li;
 
-    li = document.createElement("li");
+    let li = document.createElement("li");
+    let div = document.createElement("div");
+    let checkbox = document.createElement("input");
+    checkbox.setAttribute("type", "checkbox");
+    checkbox.setAttribute("name", "task" + index);
+    checkbox.setAttribute("id", "task" + index);
 
-    p = document.createElement("input");
-    p.setAttribute("type", "checkbox");
-    p.setAttribute("name", "task" + index);
-    p.setAttribute("id", "task" + index);
-
-    label = document.createElement("label");
+    let label = document.createElement("label");
     label.setAttribute("for", "task" + index);
     label.innerText = this.name;
 
+    let clear = document.createElement("button");
+    clear.innerText = 'x';
+
     if (this.status == "completed") {
       label.classList.add("completed");
-      p.checked = true;
+      checkbox.checked = true;
     }
 
-    li.appendChild(p);
-    li.appendChild(label);
+    div.appendChild(checkbox);
+    div.appendChild(label);
+    li.appendChild(div);
+    li.appendChild(clear);
 
     return li;
   }
@@ -112,8 +114,15 @@ class TodoList {
     ul.appendChild(li);
     li.addEventListener("click", (event) => {
       //this.removeTask(task);
-      task.markAsCompleted();
-      this.redraw();
+
+      if(event.target.tagName == 'BUTTON'){
+        this.removeTask(task);
+        this.redraw();
+      } else {
+        task.markAsCompleted();
+        this.redraw();
+      }
+      
     });
   }
 
